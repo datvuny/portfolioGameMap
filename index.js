@@ -31,35 +31,39 @@ function onTouchEnd(event) {
 }
 
 function movePlayer() {
-  const dx = touchEndPos.x - touchStartPos.x;
-  const dy = touchEndPos.y - touchStartPos.y;
+  const dx = touchEndPos.x - touchStartPos.x
+  const dy = touchEndPos.y - touchStartPos.y
   if (Math.abs(dx) > Math.abs(dy)) {
     if (dx > 0) {
       // move right
-      keys.d.pressed = true;
-      keys.a.pressed = false;
-      keys.w.pressed = false;
-      keys.s.pressed = false;
+      keys.d.pressed = true
+      keys.a.pressed = false
+      keys.w.pressed = false
+      keys.s.pressed = false
+      player.position.x += 4
     } else {
       // move left
-      keys.a.pressed = true;
-      keys.d.pressed = false;
-      keys.w.pressed = false;
-      keys.s.pressed = false;
+      keys.a.pressed = true
+      keys.d.pressed = false
+      keys.w.pressed = false
+      keys.s.pressed = false
+      player.position.x -= 5
     }
   } else {
     if (dy > 0) {
       // move down
-      keys.s.pressed = true;
-      keys.w.pressed = false;
-      keys.a.pressed = false;
-      keys.d.pressed = false;
+      keys.s.pressed = true
+      keys.w.pressed = false
+      keys.a.pressed = false
+      keys.d.pressed = false
+      player.position.y += 5
     } else {
       // move up
-      keys.w.pressed = true;
-      keys.s.pressed = false;
-      keys.a.pressed = false;
-      keys.d.pressed = false;
+      keys.w.pressed = true
+      keys.s.pressed = false
+      keys.a.pressed = false
+      keys.d.pressed = false
+      player.position.y -= 5
     }
   }
 }
