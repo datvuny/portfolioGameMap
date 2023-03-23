@@ -5,6 +5,70 @@ const c = canvas.getContext('2d')
 canvas.width = 1024
 canvas.height = 576
 
+// Add touch event listeners
+canvas.addEventListener('touchstart', onTouchStart);
+canvas.addEventListener('touchmove', onTouchMove);
+canvas.addEventListener('touchend', onTouchEnd);
+
+let touchStartPos = { x: 0, y: 0 };
+let touchEndPos = { x: 0, y: 0 };
+
+function onTouchStart(event) {
+  touchStartPos.x = event.touches[0].pageX;
+  touchStartPos.y = event.touches[0].pageY;
+}
+
+function onTouchMove(event) {
+  event.preventDefault();
+  touchEndPos.x = event.touches[0].pageX;
+  touchEndPos.y = event.touches[0].pageY;
+  movePlayer();
+}
+
+function onTouchEnd(event) {
+  touchStartPos = { x: 0, y: 0 };
+  touchEndPos = { x: 0, y: 0 };
+}
+
+function movePlayer() {
+  const dx = touchEndPos.x - touchStartPos.x;
+  const dy = touchEndPos.y - touchStartPos.y;
+  if (Math.abs(dx) > Math.abs(dy)) {
+    if (dx > 0) {
+      // move right
+      keys.d.pressed = true;
+      keys.a.pressed = false;
+      keys.w.pressed = false;
+      keys.s.pressed = false;
+    } else {
+      // move left
+      keys.a.pressed = true;
+      keys.d.pressed = false;
+      keys.w.pressed = false;
+      keys.s.pressed = false;
+    }
+  } else {
+    if (dy > 0) {
+      // move down
+      keys.s.pressed = true;
+      keys.w.pressed = false;
+      keys.a.pressed = false;
+      keys.d.pressed = false;
+    } else {
+      // move up
+      keys.w.pressed = true;
+      keys.s.pressed = false;
+      keys.a.pressed = false;
+      keys.d.pressed = false;
+    }
+  }
+}
+
+
+
+
+
+
 const collisionsMap = []
 for (let i = 0; i <collisions.length; i+=70){
     collisionsMap.push(collisions.slice(i, 70 + i))
@@ -377,112 +441,3 @@ addEventListener('keydown', (event) => {
     }
 })
 
-
-// add touch event listeners to canvas
-canvas.addEventListener('touchstart', handleTouchStart, false)
-canvas.addEventListener('touchend', handleTouchEnd, false)
-canvas.addEventListener('touchmove', handleTouchMove, false)
-
-// initialize touch position variable
-let touchPosition = null
-
-// touch start event handler
-function handleTouchStart(event) {
-    // prevent default behavior of touch events
-    event.preventDefault()
-    
-    // get the first touch position
-    touchPosition = {
-        x: event.touches[0].clientX,
-        y: event.touches[0].clientY
-    }
-}
-
-// touch end event handler
-function handleTouchEnd(event) {
-    // prevent default behavior of touch events
-    event.preventDefault()
-
-    // reset touch position
-    touchPosition = null
-}
-
-// touch move event handler
-function handleTouchMove(event) {
-    // prevent default behavior of touch events
-    event.preventDefault()
-
-    // get the current touch position
-    const currentTouchPosition = {
-        x: event.touches[0].clientX,
-        y: event.touches[0].clientY
-    }
-
-    // calculate the touch movement vector
-    const touchVector = {
-        x: currentTouchPosition.x - touchPosition.x,
-        y: currentTouchPosition.y - touchPosition.y
-    }
-
-    // update the touch position
-    touchPosition = currentTouchPosition
-
-    // determine the direction of touch movement
-    let direction = null
-    if (Math.abs(touchVector.x) > Math.abs(touchVector.y)) {
-        direction = touchVector.x > 0 ? 'right' : 'left'
-    } else {
-        direction = touchVector.y > 0 ? 'down' : 'up'
-    }
-
-    // update the keys object based on touch movement direction
-    switch (direction) {
-        case 'up':
-            keys.w.pressed = true
-            break
-        case 'left':
-            keys.a.pressed = true
-            break
-        case 'down':
-            keys.s.pressed = true
-            break
-        case 'right':
-            keys.d.pressed = true
-            break
-    }
-}
-
-// keyboard event listeners
-document.addEventListener('keydown', event => {
-    switch (event.code) {
-        case 'KeyW':
-            keys.w.pressed = true
-            break
-        case 'KeyA':
-            keys.a.pressed = true
-            break
-        case 'KeyS':
-            keys.s.pressed = true
-            break
-        case 'KeyD':
-            keys.d.pressed = true
-            break
-    }
-})
-
-document.addEventListener('keyup', event => {
-    switch (event.code) {
-        case 'KeyW':
-            keys.w.pressed = false
-            break
-        case 'KeyA':
-            keys.a.pressed = false
-            break
-        case 'KeyS':
-            keys.s.pressed = false
-            break
-        case 'KeyD':
-            keys.d.pressed = false
-            break
-    }
-})
