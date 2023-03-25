@@ -5,73 +5,6 @@ const c = canvas.getContext('2d')
 canvas.width = 1024
 canvas.height = 576
 
-// Add touch event listeners
-canvas.addEventListener('touchstart', onTouchStart);
-canvas.addEventListener('touchmove', onTouchMove);
-canvas.addEventListener('touchend', onTouchEnd);
-
-let touchStartPos = { x: 0, y: 0 };
-let touchEndPos = { x: 0, y: 0 };
-
-function onTouchStart(event) {
-  touchStartPos.x = event.touches[0].pageX;
-  touchStartPos.y = event.touches[0].pageY;
-}
-
-function onTouchMove(event) {
-  event.preventDefault();
-  touchEndPos.x = event.touches[0].pageX;
-  touchEndPos.y = event.touches[0].pageY;
-  movePlayer();
-}
-
-function onTouchEnd(event) {
-  touchStartPos = { x: 0, y: 0 };
-  touchEndPos = { x: 0, y: 0 };
-}
-
-function movePlayer() {
-  const dx = touchEndPos.x - touchStartPos.x
-  const dy = touchEndPos.y - touchStartPos.y
-  if (Math.abs(dx) > Math.abs(dy)) {
-    if (dx > 0) {
-      // move right
-      keys.d.pressed = true
-      keys.a.pressed = false
-      keys.w.pressed = false
-      keys.s.pressed = false
-      player.position.x += 4
-    } else {
-      // move left
-      keys.a.pressed = true
-      keys.d.pressed = false
-      keys.w.pressed = false
-      keys.s.pressed = false
-      player.position.x -= 5
-    }
-  } else {
-    if (dy > 0) {
-      // move down
-      keys.s.pressed = true
-      keys.w.pressed = false
-      keys.a.pressed = false
-      keys.d.pressed = false
-      player.position.y += 5
-    } else {
-      // move up
-      keys.w.pressed = true
-      keys.s.pressed = false
-      keys.a.pressed = false
-      keys.d.pressed = false
-      player.position.y -= 5
-    }
-  }
-}
-
-
-
-
-
 
 const collisionsMap = []
 for (let i = 0; i <collisions.length; i+=70){
@@ -445,3 +378,66 @@ addEventListener('keydown', (event) => {
     }
 })
 
+
+// Add touch event listeners
+canvas.addEventListener('touchstart', onTouchStart);
+canvas.addEventListener('touchmove', onTouchMove);
+canvas.addEventListener('touchend', onTouchEnd);
+
+let touchStartPos = { x: 0, y: 0 };
+let touchEndPos = { x: 0, y: 0 };
+
+function onTouchStart(event) {
+  touchStartPos.x = event.touches[0].pageX;
+  touchStartPos.y = event.touches[0].pageY;
+}
+
+function onTouchMove(event) {
+  event.preventDefault();
+  touchEndPos.x = event.touches[0].pageX;
+  touchEndPos.y = event.touches[0].pageY;
+  movePlayer();
+}
+
+function onTouchEnd(event) {
+  touchStartPos = { x: 0, y: 0 };
+  touchEndPos = { x: 0, y: 0 };
+}
+
+function movePlayer() {
+  const dx = touchEndPos.x - touchStartPos.x
+  const dy = touchEndPos.y - touchStartPos.y
+  if (Math.abs(dx) > Math.abs(dy)) {
+    if (dx > 0) {
+      // move right
+      keys.d.pressed = true
+      keys.a.pressed = false
+      keys.w.pressed = false
+      keys.s.pressed = false
+      player.position.x += 4
+    } else {
+      // move left
+      keys.a.pressed = true
+      keys.d.pressed = false
+      keys.w.pressed = false
+      keys.s.pressed = false
+      player.position.x -= 5
+    }
+  } else {
+    if (dy > 0) {
+      // move down
+      keys.s.pressed = true
+      keys.w.pressed = false
+      keys.a.pressed = false
+      keys.d.pressed = false
+      player.position.y += 5
+    } else {
+      // move up
+      keys.w.pressed = true
+      keys.s.pressed = false
+      keys.a.pressed = false
+      keys.d.pressed = false
+      player.position.y -= 5
+    }
+  }
+}
